@@ -1,43 +1,39 @@
 const data = require('../data/zoo_data');
 
-function getSchedule(scheduleTarget) {
-  return data.species.find((anima) => anima.name === scheduleTarget).availability;
+const isAnimal = (string) => {
+  const animais = ['lions', 'tigers', 'bears', 'penguins', 'otters', 'frogs',
+    'elephants', 'snakes', 'giraffes'];
+  return animais.some((animal) => animal === string);
+};
+
+const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const isDay = (string) => days.some((day) => day === string);
+
+const creatArray = (string) => {
+  const filtro = data.species.filter((animal) => animal.availability.find((day) => day === string));
+  return filtro.map((animal) => animal.name);
+};
+
+const creatObj = (string) => {
+  if (string === 'Monday') {
+    return {
+      [string]: { officeHour: 'CLOSED', exhibition: 'The zoo will be closed!' },
+    };
+  }
+  return {
+    [string]: {
+      officeHour: `Open from ${data.hours[string].open}am until ${data.hours[string].close}pm`,
+      exhibition: creatArray(string),
+    },
+  };
+};
+
+function getSchedule(string) {
+  if (isDay(string) === true) return creatObj(string);
+  if (isAnimal(string) === true) {
+    return data.species.find((animal) => animal.name === string).availability;
+  }
+  return days.reduce((acc, day) => Object.assign(acc, creatObj(day)), {});
 }
-console.log(getSchedule());
 
 module.exports = getSchedule;
-
-// if (!scheduleTarget) {
-//   return {
-//     Tuesday: {
-//       officeHour: `Open from ${data.hours.Tuesday.open}am until ${data.hours.Tuesday.close}pm`,
-//       exhibition: [ 'lions', 'tigers', 'bears', 'penguins', 'elephants', 'giraffes' ],
-//     },
-//     Wednesday: {
-//       officeHour: `Open from ${data.hours.Wednesday.open}am until ${data.hours.Wednesday.close}pm`,
-//       exhibition: [ 'tigers', 'bears', 'penguins', 'otters', 'frogs', 'giraffes' ],
-//     },
-//     Thursday: {
-//       officeHour: `Open from ${data.hours.Thursday.open}am until ${data.hours.Thursday.close}pm`,
-//       exhibition: [ 'lions', 'otters', 'frogs', 'snakes', 'giraffes' ],
-//     },
-//     Friday: {
-//       officeHour: `Open from ${data.hours.Friday.open}am until ${data.hours.Friday.close}pm`,
-//       exhibition: [ 'tigers', 'otters', 'frogs', 'snakes', 'elephants', 'giraffes' ],
-//     },
-//     Saturday: {
-//       officeHour: `Open from ${data.hours.Saturday.open}am until ${data.hours.Saturday.close}pm`,
-//       exhibition: [
-//         'lions',  'tigers',
-//         'bears',  'penguins',
-//         'otters', 'frogs',
-//         'snakes', 'elephants',
-//       ],
-//     },
-//     Sunday: {
-//       officeHour: `Open from ${data.hours.Sunday.open}am until ${data.hours.Sunday.close}pm`,
-//       exhibition: [ 'lions', 'bears', 'penguins', 'snakes', 'elephants' ],
-//     },
-//     Monday: { officeHour: 'CLOSED', exhibition: 'The zoo will be closed!' },
-//   };
-// }
