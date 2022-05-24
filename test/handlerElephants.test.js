@@ -6,7 +6,7 @@ describe('Testes da função HandlerElephants', () => {
   });
   it('Verifica se a função retorna o valor correto ao receber o parametro names', () => {
     const expected = ['Ilana', 'Orval', 'Bea', 'Jefferson'];
-    expect(handlerElephants('names')).toStrictEqual(expected);
+    expect(handlerElephants('names')).toEqual(expected);
   });
   it('Verifica se a função retorna o valor correto ao receber o parametro averageAge', () => {
     expect(handlerElephants('averageAge')).toBe(10.5);
@@ -19,7 +19,7 @@ describe('Testes da função HandlerElephants', () => {
   });
   it('Verifica se a função retorna o valor correto ao receber o parametro availability', () => {
     const expected = ['Friday', 'Saturday', 'Sunday', 'Tuesday'];
-    expect(handlerElephants('availability')).toStrictEqual(expected);
+    expect(handlerElephants('availability')).toEqual(expected);
   });
   it('Verifica se a função retorna o valor correto ao receber um parametro invalido', () => {
     expect(handlerElephants('asdasdad')).toBe(null);
